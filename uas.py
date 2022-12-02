@@ -8,9 +8,14 @@ from PIL import ImageTk
 import tkinter.filedialog
 from PIL import Image
 
-def select_image():
+def get_img():
+    global img
+    img = tkinter.filedialog.askopenfilename()
+    return img
 
-    path = tkinter.filedialog.askopenfilename()
+def grafik():
+
+    path = get_img()
 
     if len(path) > 0:
         img = cv2.imread(path)                   
@@ -42,9 +47,9 @@ def select_image():
         plt.axvline(gray.mean(), color='k', linestyle='dashed', linewidth=1)
         plt.show()
 
-root = Tk()
+# root = Tk()
 
-btn = Button(root, text="Select an image", command=select_image)
-btn.pack(side="bottom", fill="both", expand="yes", padx="10", pady="10")
+# btn = Button(root, text="Select an image", command=grafik)
+# btn.pack(side="bottom", fill="both", expand="yes", padx="10", pady="10")
 
-root.mainloop()
+# root.mainloop()

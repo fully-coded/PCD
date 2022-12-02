@@ -1,3 +1,4 @@
+import sys
 from tkinter import *
 from tkinter import filedialog
 import tkinter.ttk as ttk
@@ -10,12 +11,18 @@ import matplotlib.pyplot as plt
 import cv2
 import imutils
 from math import hypot
+from uas import *
+
+def restart():
+    """ restarts the program """
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
 
 
 def BrowsePic():
-    global panelA, panelB, panelC, panelD, panelE, panelF
+    global panelA, panelB, panelC, panelD, panelE, panelF, path
 
-    path = filedialog.askopenfilename()
+    path = get_img()
 
     if len(path) > 0:
         img = cv2.imread(path)
@@ -209,6 +216,7 @@ def center_screen():
 
 center_screen()
 
+# reset all output and input fields when button clicked
 
 # Label
 Judul = Label(root, text='Segmentasi Citra Mata Katarak', font=('arial', 24))
@@ -227,7 +235,7 @@ BrImg['command'] = BrowsePic
 BrImg.place(relx=0.5, y=30, anchor=CENTER)
 
 GrImg = ttk.Button(FrameOp, text="Graphics", style='Accentbutton')
-# GrImg['command'] = Grafik
+GrImg['command'] = grafik
 GrImg.place(relx=0.5, y=70, anchor=CENTER)
 # ProcImg = ttk.Button(root, text="Process Image", style='Accentbutton')
 # ProcImg['command'] = ProcessPic
@@ -235,6 +243,7 @@ GrImg.place(relx=0.5, y=70, anchor=CENTER)
 # ProcImg.place(x=20, y=280)  # Luar Frame
 
 RstImg = ttk.Button(FrameOp, text="Reset", style='Accentbutton')
+RstImg['command'] = restart
 # RstImg.place(x=20, y=100)
 RstImg.place(relx=0.5, y=110, anchor=CENTER)  # Luar Frame
 
