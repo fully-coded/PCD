@@ -11,7 +11,43 @@ import matplotlib.pyplot as plt
 import cv2
 import imutils
 from math import hypot
-from uas import *
+
+def get_img():
+    global path
+    path = filedialog.askopenfilename()
+    return path
+
+def grafik():
+
+    img = cv2.imread(path)                 
+    img = imutils.resize(img, width=500)          
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)    
+    #cv2.imshow("Grayscale Conversion", gray)
+
+    gray = cv2.GaussianBlur(gray,(5,5),0)
+    #cv2.imshow("Gaussian Filter", gray)
+
+    m=cv2.meanStdDev(gray)
+
+    if m[0]<50:
+        print('Cataract is not present')
+        print('Eye is healthy')
+        
+    elif m[0]<=100:
+        print('Cataract is present')
+        print('Eye has mild cataract')
+    else:
+        print('Cataract is present')
+        print('Eye has severe cataract')
+
+    print('Mean:', m[0])
+    print('SD', m[1])
+
+    
+    plt.hist(gray.ravel(),256,[0,256]);
+    plt.axvline(gray.mean(), color='k', linestyle='dashed', linewidth=1)
+    plt.show()
 
 def restart():
     """ restarts the program """
@@ -20,7 +56,7 @@ def restart():
 
 
 def BrowsePic():
-    global panelA, panelB, panelC, panelD, panelE, panelF, path
+    global panelA, panelB, panelC, panelD, panelE, panelF
 
     path = get_img()
 
@@ -216,7 +252,6 @@ def center_screen():
 
 center_screen()
 
-# reset all output and input fields when button clicked
 
 # Label
 Judul = Label(root, text='Segmentasi Citra Mata Katarak', font=('arial', 24))
